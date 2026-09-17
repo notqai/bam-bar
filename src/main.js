@@ -56,6 +56,22 @@ if (social) {
 }
 
 // ---------------------------------------------------------------------------
+//  1b. Marquee — build two identical groups wide enough to overflow any screen
+//      so the loop is seamless (no mid-screen reset).
+// ---------------------------------------------------------------------------
+const marqueeTrack = $('#marquee-track')
+if (marqueeTrack) {
+  const phrases = ['BÀM MIRI', 'ESTD 2026', 'COCKTAILS · SHOTS · LATE NIGHTS']
+  const set = phrases
+    .map((p) => `<span>${p}</span><span class="marquee__star">✺</span>`)
+    .join('')
+  const group = set.repeat(4) // repeat enough to exceed wide viewports
+  marqueeTrack.innerHTML =
+    `<div class="marquee__group">${group}</div>` +
+    `<div class="marquee__group">${group}</div>`
+}
+
+// ---------------------------------------------------------------------------
 //  2. Nav — scroll state + mobile toggle
 // ---------------------------------------------------------------------------
 const nav = $('#nav')
