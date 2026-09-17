@@ -39,6 +39,17 @@ export const config = {
     { days: 'Fri – Sat', time: '4:00 PM – 2:30 AM' },
     { days: 'Sunday', time: '4:00 PM – 1:00 AM' },
   ],
+
+  // Google review link. For a true one-tap link, open your Google Business
+  // Profile → "Ask for reviews" → copy the g.page/r/…/review link and paste here.
+  reviewUrl: 'https://www.google.com/maps/search/?api=1&query=B%C3%80M%20Bar%20Marina%20Square%20Phase%202%20Miri',
+
+  // Full printed-menu images, shown via the "View full menu" button.
+  // Drop the files in public/img/ and list them here. Leave [] to hide the button.
+  fullMenuImages: [
+    // { src: './img/menu-full-1.jpg', alt: 'BÀM full menu — drinks & liquor' },
+    // { src: './img/menu-full-2.jpg', alt: 'BÀM full menu — cocktails & food' },
+  ],
 }
 
 // Pre-filled WhatsApp booking link
@@ -46,5 +57,11 @@ export function whatsappBookingUrl() {
   const msg = encodeURIComponent(
     "Hi BÀM! I'd like to book a table.\n\nName:\nDate:\nTime:\nGuests:"
   )
+  return `https://wa.me/${config.whatsapp}?text=${msg}`
+}
+
+// Pre-filled WhatsApp feedback link (private feedback channel)
+export function whatsappFeedbackUrl() {
+  const msg = encodeURIComponent('Hi BÀM! Some feedback from your website:\n\n')
   return `https://wa.me/${config.whatsapp}?text=${msg}`
 }

@@ -6,7 +6,7 @@
 // ============================================================================
 
 import './styles.css'
-import { config, whatsappBookingUrl } from './config.js'
+import { config, whatsappBookingUrl, whatsappFeedbackUrl } from './config.js'
 import { menu, special } from './menu.js'
 
 // ---------------------------------------------------------------------------
@@ -29,6 +29,8 @@ $$('[data-book]').forEach((el) => (el.getAttribute('href') === '#book') || el.se
 
 $('#maps-link')?.setAttribute('href', config.mapsUrl)
 $('#maps-embed')?.setAttribute('src', config.mapsEmbed)
+$('#review-link')?.setAttribute('href', config.reviewUrl)
+$('#feedback-link')?.setAttribute('href', whatsappFeedbackUrl())
 $('#visit-addr') && ($('#visit-addr').textContent = config.address)
 $('#year') && ($('#year').textContent = new Date().getFullYear())
 
@@ -134,6 +136,78 @@ function renderItem(item) {
       </span>
       <span class="menu__item-price" data-bare="${bare}">${item.price}</span>
     </div>`
+}
+
+// ---------------------------------------------------------------------------
+//  3b. Lightbox — reused by the gallery and the full-menu button
+// ---------------------------------------------------------------------------
+const lightbox = (() => {
+  let images = []
+  let index = 0
+  let el
+
+  function build() {
+    el = document.createElement('div')
+    el.className = 'lightbox'
+    el.setAttribute('role', 'dialog')
+    el.setAttribute('aria-modal', 'true')
+    el.setAttribute('aria-label', 'Image viewer')
+    el.innerHTML = `
+      <button class="lightbox__btn lightbox__close" aria-label="Close">✕</button>
+      <button class="lightbox__btn lightbox__prev" aria-label="Previous">‹</button>
+      <img class="lightbox__img" alt="" />
+      <button class="lightbox__btn lightbox__next" aria-label="Next">›</button>
+      <p class="lightbox__count"></p>`
+    document.body.appendChild(el)
+    el.querySelector('.lightbox__close').addEventListener('click', close)
+    el.querySelector('.lightbox__prev').addEventListener('click', () => step(-1))
+    el.querySelector('.lightbox__next').addEventListener('click', () => step(1))
+    el.addEventListener('click', (e) => { if (e.target === el) close() })
+  }
+  function render() {
+    const img = el.querySelector('.lightbox__img')
+    img.src = images[index].src
+    img.alt = images[index].alt || ''
+    el.querySelector('.lightbox__count').textContent = `${index + 1} / ${images.length}`
+    el.setAttribute('data-single', images.length <= 1 ? '1' : '0')
+  }
+  function step(d) { index = (index + d + images.length) % images.length; render() }
+  function close() { el.classList.remove('is-open'); document.body.style.overflow = '' }
+  function open(imgs, start = 0) {
+    if (!el) build()
+    images = imgs; index = start; render()
+    el.classList.add('is-open')
+    document.body.style.overflow = 'hidden'
+  }
+  document.addEventListener('keydown', (e) => {
+    if (!el || !el.classList.contains('is-open')) return
+    if (e.key === 'Escape') close()
+    else if (e.key === 'ArrowLeft') step(-1)
+    else if (e.key === 'ArrowRight') step(1)
+  })
+  return { open }
+})()
+
+// Gallery photos → lightbox
+const galleryImgs = $$('.gallery__item img')
+const galleryData = galleryImgs.map((img) => ({ src: img.src, alt: img.alt }))
+galleryImgs.forEach((img, i) => {
+  const fig = img.closest('.gallery__item')
+  fig.setAttribute('role', 'button')
+  fig.setAttribute('tabindex', '0')
+  fig.setAttribute('aria-label', 'Enlarge photo')
+  const openIt = () => lightbox.open(galleryData, i)
+  fig.addEventListener('click', openIt)
+  fig.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openIt() }
+  })
+})
+
+// Full-menu images → lightbox (button stays hidden until images are configured)
+const viewFull = $('#menu-viewfull')
+if (viewFull && Array.isArray(config.fullMenuImages) && config.fullMenuImages.length) {
+  viewFull.hidden = false
+  viewFull.addEventListener('click', () => lightbox.open(config.fullMenuImages, 0))
 }
 
 // ---------------------------------------------------------------------------

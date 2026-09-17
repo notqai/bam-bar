@@ -114,23 +114,33 @@
         </p>
       </div>
 
+      <!-- To use real DJ photos: replace the event__media src with img/dj-mago.jpg etc. -->
       <div class="events__grid">
         <article class="event reveal">
-          <p class="event__day">Wednesday</p>
-          <h3 class="event__name">Ladies Night</h3>
-          <p class="event__desc">The midweek reset. Special pours for the ladies all night — bring the crew.</p>
+          <img class="event__media" src="./img/booth-lounge.jpg" alt="" loading="lazy" />
+          <div class="event__body">
+            <p class="event__day">Wednesday</p>
+            <h3 class="event__name">Ladies Night</h3>
+            <p class="event__desc">The midweek reset. Special pours for the ladies all night — bring the crew.</p>
+          </div>
         </article>
         <article class="event reveal event--feature">
-          <p class="event__day">Friday</p>
-          <h3 class="event__name">DJ Mago</h3>
-          <p class="event__desc">Resident heat on the decks. Red lights up, room loud — booth bookings recommended.</p>
+          <img class="event__media" src="./img/dj-booth.jpg" alt="" loading="lazy" />
           <span class="event__tag">Live DJ</span>
+          <div class="event__body">
+            <p class="event__day">Friday</p>
+            <h3 class="event__name">DJ Mago</h3>
+            <p class="event__desc">Resident heat on the decks. Red lights up, room loud — booth bookings recommended.</p>
+          </div>
         </article>
         <article class="event reveal">
-          <p class="event__day">Saturday</p>
-          <h3 class="event__name">DJ Samuel</h3>
-          <p class="event__desc">Peak weekend energy. DJ Samuel runs it till 2:30 — full send.</p>
+          <img class="event__media" src="./img/signage.jpg" alt="" loading="lazy" />
           <span class="event__tag">Live DJ</span>
+          <div class="event__body">
+            <p class="event__day">Saturday</p>
+            <h3 class="event__name">DJ Samuel</h3>
+            <p class="event__desc">Peak weekend energy. DJ Samuel runs it till 2:30 — full send.</p>
+          </div>
         </article>
       </div>
     </section>
@@ -143,6 +153,9 @@
         <p class="eyebrow">The list</p>
         <h2>Eat &amp; <span class="script">drink</span></h2>
         <p class="section-head__sub">All prices in RM and include 5% service tax.</p>
+        <button type="button" class="btn btn--ghost menu__viewfull" id="menu-viewfull" hidden>
+          View full menu
+        </button>
       </div>
 
       <div class="menu__special reveal" id="menu-special"><!-- injected --></div>
@@ -189,7 +202,10 @@
           <h2>Visit <span class="script">BÀM</span></h2>
           <ul class="hours" id="hours-list"><!-- injected --></ul>
           <p class="visit__addr" id="visit-addr"><!-- injected --></p>
-          <a class="btn btn--ghost" id="maps-link" target="_blank" rel="noopener">Open in Maps →</a>
+          <div class="visit__actions">
+            <a class="btn btn--ghost" id="maps-link" target="_blank" rel="noopener">Open in Maps →</a>
+            <a class="btn btn--red" id="review-link" target="_blank" rel="noopener">★ Review us on Google</a>
+          </div>
         </div>
         <div class="visit__map reveal">
           <img src="./img/exterior.jpg" alt="BÀM Bar corner shoplot at night with red LED signboard" class="visit__photo" loading="lazy" />
@@ -252,6 +268,7 @@
       <nav class="footer__social" id="footer-social" aria-label="Social links"><!-- injected --></nav>
       <p class="footer__meta">
         <a href="#home">Back to top ↑</a>
+        <a id="feedback-link" target="_blank" rel="noopener">Send feedback</a>
       </p>
       <p class="footer__fine">
         © <span id="year"></span> BÀM Bar · Miri, Sarawak · Drink responsibly. 18+.
