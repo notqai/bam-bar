@@ -203,6 +203,21 @@ galleryImgs.forEach((img, i) => {
   })
 })
 
+// Event posters → lightbox
+const posterImgs = $$('.event__poster')
+const posterData = posterImgs.map((img) => ({ src: img.src, alt: img.alt }))
+posterImgs.forEach((img, i) => {
+  const card = img.closest('.event--poster')
+  card.setAttribute('role', 'button')
+  card.setAttribute('tabindex', '0')
+  card.setAttribute('aria-label', img.alt || 'View event poster')
+  const openIt = () => lightbox.open(posterData, i)
+  card.addEventListener('click', openIt)
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openIt() }
+  })
+})
+
 // Full-menu images → lightbox (button stays hidden until images are configured)
 const viewFull = $('#menu-viewfull')
 if (viewFull && Array.isArray(config.fullMenuImages) && config.fullMenuImages.length) {

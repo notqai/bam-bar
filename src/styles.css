@@ -357,10 +357,27 @@ section { position: relative; }
   gap: 1.25rem;
   max-width: var(--maxw);
   margin: 0 auto;
+  align-items: start;
 }
+/* full-poster event card — shows the complete flyer, no crop, tap to enlarge */
+/* `.event.event--poster` keeps higher specificity than the base `.event` rule */
+.event.event--poster {
+  min-height: 0;
+  cursor: pointer;
+}
+.event--poster::after { display: none; }
+.event__poster {
+  position: static;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.event--poster:hover .event__poster { transform: scale(1.03); }
 .event {
   position: relative;
-  min-height: 340px;
+  min-height: 440px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
