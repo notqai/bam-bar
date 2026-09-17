@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BÀM Bar · Miri — Nightlife in Sarawak</title>
+    <meta
+      name="description"
+      content="BÀM Bar, Miri. Bottled cocktails, loaded shots, late nights and red neon. Book a table on WhatsApp. ESTD 2026."
+    />
+    <meta name="theme-color" content="#141110" />
+    <!-- Draft: keep out of search results while sharing privately. Remove when going live. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:title" content="BÀM Bar · Miri" />
+    <meta property="og:description" content="Miri’s loudest little corner. Cocktails, shots, late nights." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./img/signage.jpg" />
+
+    <!-- Fonts: Anton (display punch), Caveat (hand-lettered accent), Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./img/logo-bam.png" />
+  </head>
+
+  <body>
+    <!-- ==================================================================== -->
+    <!--  NAV                                                                  -->
+    <!-- ==================================================================== -->
+    <header class="nav" id="nav">
+      <a href="#home" class="nav__brand" aria-label="BÀM Bar home">
+        <img src="./img/logo-wordmark.png" alt="BÀM Miri" class="nav__logo" />
+      </a>
+
+      <nav class="nav__links" id="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#visit">Visit</a>
+        <a href="#book" class="nav__cta">Book a Table</a>
+      </nav>
+
+      <button class="nav__toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <!-- ==================================================================== -->
+    <!--  HERO                                                                 -->
+    <!-- ==================================================================== -->
+    <section class="hero" id="home">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__grain" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <p class="hero__eyebrow">Sarawak · <span>Est. 2026</span></p>
+        <img src="./img/logo-wordmark.png" alt="BÀM" class="hero__logo" />
+        <p class="hero__sub">Miri</p>
+        <p class="hero__tag">Miri’s loudest little corner.<br />Red neon, cold pours, late nights.</p>
+        <div class="hero__cta">
+          <a href="#book" class="btn btn--red" data-book>Book a Table</a>
+          <a href="#events" class="btn btn--ghost">This Weekend →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Neon marquee divider -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>BÀM MIRI</span><span aria-hidden="true">✺</span>
+        <span>ESTD 2026</span><span aria-hidden="true">✺</span>
+        <span>COCKTAILS · SHOTS · LATE NIGHTS</span><span aria-hidden="true">✺</span>
+        <span>BÀM MIRI</span><span aria-hidden="true">✺</span>
+        <span>ESTD 2026</span><span aria-hidden="true">✺</span>
+        <span>COCKTAILS · SHOTS · LATE NIGHTS</span><span aria-hidden="true">✺</span>
+      </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!--  ABOUT                                                                -->
+    <!-- ==================================================================== -->
+    <section class="about" id="about">
+      <div class="frame reveal">
+        <p class="eyebrow">The story</p>
+        <h2 class="about__head"><span class="script">Turn up</span> the red.</h2>
+        <p class="about__body">
+          BÀM is Miri’s corner shoplot gone loud — charcoal walls, red LED strips
+          hugging every booth, and walls of greenery lit like a stage. Slide into a
+          lounge booth, grab a high-top with the crew, or post up by the glowing DJ
+          podium. Bottled cocktails at RM30, shots by the hundred, and a kitchen that
+          keeps going after midnight.
+        </p>
+        <p class="about__body about__body--muted">
+          Young, punchy, upscale-but-fun. Pull up.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  EVENTS                                                               -->
+    <!-- ==================================================================== -->
+    <section class="events" id="events">
+      <div class="section-head reveal">
+        <p class="eyebrow">What’s on</p>
+        <h2>This week at <span class="script">BÀM</span></h2>
+        <p class="section-head__sub">
+          Placeholder line-up — send us your real DJ nights and we’ll drop them in.
+        </p>
+      </div>
+
+      <div class="events__grid">
+        <article class="event reveal">
+          <p class="event__day">Thursday</p>
+          <h3 class="event__name">Student Night</h3>
+          <p class="event__desc">Show a student ID, get the squad rate on shot buckets.</p>
+        </article>
+        <article class="event reveal event--feature">
+          <p class="event__day">Friday</p>
+          <h3 class="event__name">Resident DJ</h3>
+          <p class="event__desc">Red lights, big room sound. Doors from 8PM, booth bookings recommended.</p>
+          <span class="event__tag">Headliner</span>
+        </article>
+        <article class="event reveal">
+          <p class="event__day">Saturday</p>
+          <h3 class="event__name">BÀM Weekend</h3>
+          <p class="event__desc">The full room going. Flaming Waterfall on standby for birthdays.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  MENU  (tabs + list injected by JS from src/menu.js)                  -->
+    <!-- ==================================================================== -->
+    <section class="menu" id="menu">
+      <div class="section-head reveal">
+        <p class="eyebrow">The list</p>
+        <h2>Eat &amp; <span class="script">drink</span></h2>
+        <p class="section-head__sub">All prices in RM and include 5% service tax.</p>
+      </div>
+
+      <div class="menu__special reveal" id="menu-special"><!-- injected --></div>
+
+      <div class="menu__tabs" id="menu-tabs" role="tablist" aria-label="Menu categories"><!-- injected --></div>
+      <div class="menu__panels" id="menu-panels"><!-- injected --></div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  GALLERY                                                              -->
+    <!-- ==================================================================== -->
+    <section class="gallery" id="gallery">
+      <div class="section-head reveal">
+        <p class="eyebrow">Inside</p>
+        <h2>The <span class="script">room</span></h2>
+      </div>
+
+      <div class="gallery__grid">
+        <figure class="gallery__item gallery__item--tall reveal">
+          <img src="./img/high-top.jpg" alt="Greenery arch with red neon tubes over high-top tables" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal">
+          <img src="./img/dj-booth.jpg" alt="Circular backlit DJ podium wrapped in greenery" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal">
+          <img src="./img/booth-lounge.jpg" alt="Grey lounge booths under a backlit BÀM greenery panel" loading="lazy" />
+        </figure>
+        <figure class="gallery__item gallery__item--wide reveal">
+          <img src="./img/greenery-panel.jpg" alt="Backlit BÀM signage framed in lush florals" loading="lazy" />
+        </figure>
+        <figure class="gallery__item reveal">
+          <img src="./img/signage.jpg" alt="Neon BÀM signage inside the bar" loading="lazy" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  VISIT — hours + map                                                  -->
+    <!-- ==================================================================== -->
+    <section class="visit" id="visit">
+      <div class="visit__grid">
+        <div class="visit__info reveal">
+          <p class="eyebrow">Find us</p>
+          <h2>Visit <span class="script">BÀM</span></h2>
+          <ul class="hours" id="hours-list"><!-- injected --></ul>
+          <p class="visit__addr" id="visit-addr"><!-- injected --></p>
+          <a class="btn btn--ghost" id="maps-link" target="_blank" rel="noopener">Open in Maps →</a>
+        </div>
+        <div class="visit__map reveal">
+          <img src="./img/exterior.jpg" alt="BÀM Bar corner shoplot at night with red LED signboard" class="visit__photo" loading="lazy" />
+          <iframe class="visit__embed" id="maps-embed" title="Map to BÀM Bar, Miri" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  BOOK — WhatsApp primary + email form fallback                        -->
+    <!-- ==================================================================== -->
+    <section class="book" id="book">
+      <div class="book__glow" aria-hidden="true"></div>
+      <div class="book__inner reveal">
+        <p class="eyebrow">Reservations</p>
+        <h2>Grab a <span class="script">booth</span></h2>
+        <p class="book__lead">
+          Fastest way in is WhatsApp — we’ll confirm your booth in minutes.
+        </p>
+        <a class="btn btn--red btn--lg" id="wa-book" target="_blank" rel="noopener">
+          Book on WhatsApp
+        </a>
+
+        <p class="book__or">or leave your details</p>
+
+        <form class="book__form" id="book-form" novalidate>
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field field--split">
+            <div>
+              <label for="f-date">Date</label>
+              <input id="f-date" name="date" type="date" required />
+            </div>
+            <div>
+              <label for="f-guests">Guests</label>
+              <input id="f-guests" name="guests" type="number" min="1" max="50" value="2" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-contact">Phone or email</label>
+            <input id="f-contact" name="contact" type="text" required autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="f-note">Anything else? <span>(optional)</span></label>
+            <textarea id="f-note" name="note" rows="2"></textarea>
+          </div>
+          <button type="submit" class="btn btn--red btn--lg">Request Booking</button>
+          <p class="book__status" id="book-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================================================================== -->
+    <!--  FOOTER                                                               -->
+    <!-- ==================================================================== -->
+    <footer class="footer">
+      <img src="./img/logo-bam.png" alt="BÀM Miri" class="footer__logo" />
+      <nav class="footer__social" id="footer-social" aria-label="Social links"><!-- injected --></nav>
+      <p class="footer__meta">
+        <a href="#home">Back to top ↑</a>
+      </p>
+      <p class="footer__fine">
+        © <span id="year"></span> BÀM Bar · Miri, Sarawak · Drink responsibly. 18+.
+      </p>
+    </footer>
+
+    <!-- Floating WhatsApp button -->
+    <a class="wa-float" id="wa-float" target="_blank" rel="noopener" aria-label="Message BÀM on WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="26" height="26">
+        <path fill="currentColor" d="M.06 24l1.68-6.13A11.86 11.86 0 010 6.31 11.9 11.9 0 0112.05.42a11.87 11.87 0 018.4 3.5 11.82 11.82 0 013.48 8.41c0 6.55-5.35 11.88-11.9 11.88a11.9 11.9 0 01-5.68-1.45L.06 24zM6.6 20.2l.36.22a9.87 9.87 0 005.03 1.38 9.9 9.9 0 009.9-9.88c0-2.64-1.03-5.12-2.9-6.99a9.82 9.82 0 00-6.98-2.9 9.9 9.9 0 00-9.9 9.88c0 1.9.55 3.76 1.6 5.36l.24.37-.99 3.63 3.64-.95zm11.36-5.55c-.15-.25-.55-.4-1.15-.7s-3.53-1.74-4.08-1.94c-.55-.2-.95-.3-1.35.3s-1.54 1.94-1.9 2.34c-.34.4-.7.45-1.3.15a8.13 8.13 0 01-2.4-1.48 9 9 0 01-1.66-2.07c-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53s-1.35-3.26-1.85-4.46c-.49-1.18-.98-1.01-1.35-1.03l-1.15-.02c-.4 0-1.04.15-1.59.75-.55.6-2.08 2.04-2.08 4.97s2.13 5.77 2.43 6.17c.3.4 4.2 6.4 10.17 8.98 1.42.61 2.53.98 3.39 1.25 1.43.46 2.72.4 3.75.24 1.14-.17 3.53-1.44 4.02-2.83.5-1.4.5-2.59.35-2.84z"/>
+      </svg>
+    </a>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
