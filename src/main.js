@@ -203,15 +203,17 @@ galleryImgs.forEach((img, i) => {
   })
 })
 
-// Event posters → lightbox
-const posterImgs = $$('.event__poster')
-const posterData = posterImgs.map((img) => ({ src: img.src, alt: img.alt }))
-posterImgs.forEach((img, i) => {
-  const card = img.closest('.event--poster')
+// DJ event cards → tap to view the full uncropped poster in the lightbox
+const djCards = $$('.event--dj')
+const djPosters = djCards.map((c) => ({
+  src: c.dataset.poster,
+  alt: c.querySelector('.event__media')?.alt || 'Event poster',
+}))
+djCards.forEach((card, i) => {
   card.setAttribute('role', 'button')
   card.setAttribute('tabindex', '0')
-  card.setAttribute('aria-label', img.alt || 'View event poster')
-  const openIt = () => lightbox.open(posterData, i)
+  card.setAttribute('aria-label', djPosters[i].alt)
+  const openIt = () => lightbox.open(djPosters, i)
   card.addEventListener('click', openIt)
   card.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openIt() }
