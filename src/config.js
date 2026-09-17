@@ -17,27 +17,27 @@ export const config = {
   estd: 'ESTD 2026',
   city: 'Miri, Sarawak',
 
-  // TODO: replace with the real WhatsApp number (digits only, incl. country code)
-  whatsapp: '60000000000',
+  // WhatsApp number — digits only, incl. country code (+60 17-521 5551)
+  whatsapp: '60175215551',
 
   // Socials
   instagram: 'https://instagram.com/bambar.miri',
   instagramHandle: '@bambar.miri',
-  tiktok: '', // TODO: paste TikTok URL, or leave '' to hide
+  tiktok: '', // no TikTok — leave '' to hide the link
 
   // TODO: paste your Formspree form ID to enable email reservations
   formspreeId: '',
 
-  // Address — update the exact street line + Google Maps link when confirmed
-  address: 'Corner shoplot, Miri, Sarawak, Malaysia',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=BAM+Bar+Miri',
-  mapsEmbed: 'https://www.google.com/maps?q=BAM%20Bar%20Miri%20Sarawak&output=embed',
+  // Address + Google Maps (listing: "BÀM Bar Miri")
+  address: 'Lot 2292, Ground Floor, Marina Square Phase 2 (below Level Up Gym), Miri, Sarawak',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=B%C3%80M%20Bar%20Marina%20Square%20Phase%202%20Miri',
+  mapsEmbed: 'https://www.google.com/maps?q=B%C3%80M%20Bar%20Marina%20Square%20Phase%202%20Miri%20Sarawak&output=embed',
 
   // Opening hours — edit freely
   hours: [
-    { days: 'Mon – Thu', time: '6:00 PM – 1:00 AM' },
-    { days: 'Fri – Sat', time: '6:00 PM – 2:00 AM' },
-    { days: 'Sunday', time: '6:00 PM – 1:00 AM' },
+    { days: 'Mon – Thu', time: '4:00 PM – 1:00 AM' },
+    { days: 'Fri – Sat', time: '4:00 PM – 2:30 AM' },
+    { days: 'Sunday', time: '4:00 PM – 1:00 AM' },
   ],
 }
 
