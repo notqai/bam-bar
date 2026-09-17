@@ -47,8 +47,8 @@ export const config = {
   // Full printed-menu images, shown via the "View full menu" button.
   // Drop the files in public/img/ and list them here. Leave [] to hide the button.
   fullMenuImages: [
-    // { src: './img/menu-full-1.jpg', alt: 'BÀM full menu — drinks & liquor' },
-    // { src: './img/menu-full-2.jpg', alt: 'BÀM full menu — cocktails & food' },
+    { src: './img/menu-full-1.jpg', alt: 'BÀM full menu — beer, liquor, shots & wine' },
+    { src: './img/menu-full-2.jpg', alt: 'BÀM full menu — cocktails, mocktails, drinks & food' },
   ],
 }
 
