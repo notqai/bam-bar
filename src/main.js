@@ -99,6 +99,33 @@ const mq = window.matchMedia('(min-width: 861px)')
 mq.addEventListener?.('change', (e) => { if (e.matches) setMenu(false) })
 
 // ---------------------------------------------------------------------------
+//  2b. In-page links + scroll position on (re)load
+//      Plain "#book" anchors left the hash in the URL, so a refresh on mobile
+//      jumped straight back to that section (the bottom of the page). Now:
+//      • in-page links scroll with JS and never leave a hash in the URL
+//      • a shared deep link (…/#menu) still lands on that section once
+//      • a reload always starts from the top
+// ---------------------------------------------------------------------------
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+const stripHash = () => history.replaceState(null, '', location.pathname + location.search)
+const jumpTo = (el, behavior) => el.scrollIntoView({ behavior, block: 'start' })
+
+$$('a[href^="#"]').forEach((a) =>
+  a.addEventListener('click', (e) => {
+    const target = document.getElementById(a.getAttribute('href').slice(1))
+    if (!target) return
+    e.preventDefault()
+    jumpTo(target, 'smooth')
+    stripHash()
+  })
+)
+
+const initial = location.hash.length > 1 && document.getElementById(location.hash.slice(1))
+stripHash()
+if (initial) requestAnimationFrame(() => jumpTo(initial, 'instant'))
+else window.scrollTo({ top: 0, behavior: 'instant' })
+
+// ---------------------------------------------------------------------------
 //  3. Menu — special headliner + tabs + panels (built from menu.js)
 // ---------------------------------------------------------------------------
 const specialEl = $('#menu-special')
