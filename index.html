@@ -46,9 +46,10 @@
         <a href="#book" class="nav__cta">Book a Table</a>
       </nav>
 
-      <button class="nav__toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <button class="nav__toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span><span></span>
       </button>
+      <div class="nav__scrim" id="nav-scrim" aria-hidden="true"></div>
     </header>
 
     <!-- ==================================================================== -->
@@ -85,8 +86,8 @@
         <p class="about__body">
           BÀM is Miri’s corner shoplot gone loud — charcoal walls, red LED strips
           hugging every booth, and walls of greenery lit like a stage. Slide into a
-          lounge booth, grab a high-top with the crew, or post up by the glowing DJ
-          podium. Bottled cocktails at RM30, shots by the hundred, and a kitchen that
+          lounge booth, grab a high-top with the crew, post up by the glowing DJ
+          podium, or take the VIP room under the copper walls. Bottled cocktails at RM30, shots by the hundred, and a kitchen that
           keeps going after midnight.
         </p>
         <p class="about__body about__body--muted">
@@ -167,6 +168,10 @@
       </div>
 
       <div class="gallery__grid">
+        <figure class="gallery__item gallery__item--feature reveal">
+          <img src="./img/vip-area.jpg" alt="VIP area — black leather booths under a glowing red BÀM panel, copper-textured walls and table lamps" loading="lazy" />
+          <figcaption class="gallery__cap">VIP area</figcaption>
+        </figure>
         <figure class="gallery__item gallery__item--tall reveal">
           <img src="./img/high-top.jpg" alt="Greenery arch with red neon tubes over high-top tables" loading="lazy" />
         </figure>
@@ -179,7 +184,7 @@
         <figure class="gallery__item gallery__item--wide reveal">
           <img src="./img/greenery-panel.jpg" alt="Backlit BÀM signage framed in lush florals" loading="lazy" />
         </figure>
-        <figure class="gallery__item reveal">
+        <figure class="gallery__item gallery__item--wide-lg reveal">
           <img src="./img/signage.jpg" alt="Neon BÀM signage inside the bar" loading="lazy" />
         </figure>
       </div>
