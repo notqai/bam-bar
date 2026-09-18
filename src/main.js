@@ -80,17 +80,23 @@ onScroll()
 window.addEventListener('scroll', onScroll, { passive: true })
 
 const toggle = $('#nav-toggle')
-toggle?.addEventListener('click', () => {
-  const open = nav.classList.toggle('is-open')
-  toggle.setAttribute('aria-expanded', String(open))
-})
+const scrim = $('#nav-scrim')
+const setMenu = (open) => {
+  nav.classList.toggle('is-open', open)
+  document.body.classList.toggle('nav-open', open)
+  toggle?.setAttribute('aria-expanded', String(open))
+  toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Menu')
+}
+toggle?.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')))
+scrim?.addEventListener('click', () => setMenu(false))
 // close mobile menu after tapping a link
-$$('#nav-links a').forEach((a) =>
-  a.addEventListener('click', () => {
-    nav.classList.remove('is-open')
-    toggle?.setAttribute('aria-expanded', 'false')
-  })
-)
+$$('#nav-links a').forEach((a) => a.addEventListener('click', () => setMenu(false)))
+// Escape closes it; growing past the mobile breakpoint resets it
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && nav.classList.contains('is-open')) setMenu(false)
+})
+const mq = window.matchMedia('(min-width: 861px)')
+mq.addEventListener?.('change', (e) => { if (e.matches) setMenu(false) })
 
 // ---------------------------------------------------------------------------
 //  3. Menu — special headliner + tabs + panels (built from menu.js)
