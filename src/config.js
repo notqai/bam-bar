@@ -45,7 +45,8 @@ export const config = {
 
   // Booking-form arrival slots (24h clock). Slots run every `step` minutes
   // from `first` to `last`; Fri/Sat run to `lastWeekend` instead.
-  bookingTimes: { first: '16:00', last: '01:00', lastWeekend: '02:00', step: 30 },
+  // Last arrival is 10:30 PM every night.
+  bookingTimes: { first: '16:00', last: '22:30', lastWeekend: '22:30', step: 30 },
 
   // Google review link. For a true one-tap link, open your Google Business
   // Profile → "Ask for reviews" → copy the g.page/r/…/review link and paste here.
