@@ -290,6 +290,68 @@ const io = new IntersectionObserver(
 $$('.reveal').forEach((el) => io.observe(el))
 
 // ---------------------------------------------------------------------------
+//  4b. Friendly date picking — quick-pick chips, a plain-English confirmation
+//      under the field, no past dates, and readable dates in the messages.
+// ---------------------------------------------------------------------------
+const DAY = 864e5
+const isoDate = (d) => {
+  const z = new Date(d.getTime() - d.getTimezoneOffset() * 6e4)
+  return z.toISOString().slice(0, 10)            // local YYYY-MM-DD
+}
+const parseIso = (str) => {
+  const [y, m, d] = (str || '').split('-').map(Number)
+  return y && m && d ? new Date(y, m - 1, d) : null
+}
+const fmtLong = (d) => d.toLocaleDateString('en-MY', { weekday: 'long', day: 'numeric', month: 'long' })
+const fmtShort = (d) => d.toLocaleDateString('en-MY', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+const friendlyDate = (str) => { const d = parseIso(str); return d ? fmtShort(d) : str }
+// Weekly regulars, keyed by JS weekday (0 = Sunday) — mirrors the Events section
+const NIGHTS = { 3: 'Ladies Night 🍸', 5: 'DJ night 🎧', 6: 'DJ night 🎧' }
+
+const dateInput = $('#f-date')
+const dateChips = $('#date-chips')
+const dateHint = $('#date-hint')
+if (dateInput) {
+  const today = new Date(); today.setHours(0, 0, 0, 0)
+  dateInput.min = isoDate(today)
+  dateInput.max = isoDate(new Date(today.getTime() + 90 * DAY))
+
+  // Chips: Tonight · Tomorrow · next Friday · next Saturday (deduped)
+  const nextDow = (dow) => { const d = new Date(today); d.setDate(d.getDate() + ((dow - d.getDay() + 7) % 7)); return d }
+  const picks = [
+    { label: 'Tonight', date: today },
+    { label: 'Tomorrow', date: new Date(today.getTime() + DAY) },
+    { label: 'Friday', date: nextDow(5) },
+    { label: 'Saturday', date: nextDow(6) },
+  ]
+  const seen = new Set()
+  const chips = picks.filter((p) => { const k = isoDate(p.date); if (seen.has(k)) return false; seen.add(k); return true })
+  if (dateChips) {
+    dateChips.innerHTML = chips
+      .map((p) => `<button type="button" class="chip" data-date="${isoDate(p.date)}">${p.label}<small>${p.date.toLocaleDateString('en-MY', { day: 'numeric', month: 'short' })}</small></button>`)
+      .join('')
+  }
+  const syncDate = () => {
+    const d = parseIso(dateInput.value)
+    $$('.chip', dateChips).forEach((c) => c.classList.toggle('is-active', c.dataset.date === dateInput.value))
+    if (!d) { dateHint.innerHTML = ''; return }
+    const days = Math.round((d - today) / DAY)
+    const when = days === 0 ? 'Tonight' : days === 1 ? 'Tomorrow' : days < 0 ? 'That date has passed' : `In ${days} days`
+    const night = NIGHTS[d.getDay()]
+    dateHint.innerHTML = `<b>${fmtLong(d)}</b> · ${when}${night ? ` · <span class="tag">${night}</span>` : ''}`
+  }
+  dateChips?.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip')
+    if (!chip) return
+    dateInput.value = chip.dataset.date
+    syncDate()
+  })
+  dateInput.addEventListener('input', syncDate)
+  dateInput.addEventListener('change', syncDate)
+  syncDate()
+}
+
+// ---------------------------------------------------------------------------
 //  5. Reservation form
 //     • With a bookingEmail set in config → emails it via formsubmit.co.
 //     • Without one → falls back to opening a pre-filled WhatsApp message.
@@ -309,7 +371,7 @@ form?.addEventListener('submit', async (e) => {
   // No email configured → hand off to WhatsApp so it still works.
   if (!config.bookingEmail) {
     const msg = encodeURIComponent(
-      `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${data.date}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
+      `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${friendlyDate(data.date)}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
     )
     window.open(`https://wa.me/${config.whatsapp}?text=${msg}`, '_blank', 'noopener')
     status.classList.add('is-ok')
@@ -323,12 +385,12 @@ form?.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        _subject: `Table request — ${data.name} · ${data.date} · ${data.guests} guests`,
+        _subject: `Table request — ${data.name} · ${friendlyDate(data.date)} · ${data.guests} guests`,
         _template: 'table',
         _captcha: 'false',
         ...(isEmail ? { _replyto: data.contact.trim() } : {}),
         Name: data.name,
-        Date: data.date,
+        Date: friendlyDate(data.date),
         Guests: data.guests,
         Contact: data.contact,
         Note: data.note || '—',
@@ -337,6 +399,7 @@ form?.addEventListener('submit', async (e) => {
     const body = await res.json().catch(() => ({}))
     if (res.ok && String(body.success) !== 'false') {
       form.reset()
+      dateInput?.dispatchEvent(new Event('change'))
       status.classList.add('is-ok')
       status.textContent = 'Got it — we’ll confirm your booth shortly. 🖤'
     } else {
