@@ -230,6 +230,8 @@
         <p class="book__or">or leave your details</p>
 
         <form class="book__form" id="book-form" novalidate>
+          <!-- honeypot: hidden from people, bots fill it and get dropped -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp" />
           <div class="field">
             <label for="f-name">Name</label>
             <input id="f-name" name="name" type="text" required autocomplete="name" />
