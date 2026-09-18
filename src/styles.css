@@ -598,6 +598,27 @@ section { position: relative; }
   outline: none; border-color: var(--red-bright);
   box-shadow: 0 0 0 3px rgba(255,58,46,0.2);
 }
+.field--date { grid-column: 1 / -1; }          /* date row spans full width */
+.field input[type="date"] {
+  color-scheme: dark;                          /* dark native picker + light calendar icon */
+  min-height: 3.1em; -webkit-appearance: none; appearance: none;
+}
+.field input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.15rem; }
+.chip {
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em;
+  color: var(--cream); background: transparent;
+  border: 1px solid var(--char-3); border-radius: 999px; padding: 0.45em 0.9em;
+  cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip small { display: block; font-weight: 400; font-size: 0.72rem; color: var(--cream-dim); }
+.chip:hover { border-color: var(--red-bright); }
+.chip.is-active { background: var(--red); border-color: var(--red); color: #fff; }
+.chip.is-active small { color: rgba(255,255,255,0.8); }
+.field__hint { font-size: 0.85rem; color: var(--cream-dim); min-height: 1.2em; }
+.field__hint b { color: var(--cream); font-weight: 600; }
+.field__hint .tag { color: var(--red-bright); font-weight: 600; white-space: nowrap; }
 .book__form .btn { justify-content: center; margin-top: 0.5rem; }
 .book__status { text-align: center; font-size: 0.9rem; min-height: 1.2em; }
 .book__status.is-ok { color: var(--glow-green); }

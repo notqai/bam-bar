@@ -237,9 +237,11 @@
             <input id="f-name" name="name" type="text" required autocomplete="name" />
           </div>
           <div class="field field--split">
-            <div>
+            <div class="field--date">
               <label for="f-date">Date</label>
+              <div class="chips" id="date-chips" aria-label="Quick pick a date"><!-- injected --></div>
               <input id="f-date" name="date" type="date" required />
+              <p class="field__hint" id="date-hint" aria-live="polite"></p>
             </div>
             <div>
               <label for="f-guests">Guests</label>
