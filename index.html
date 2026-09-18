@@ -108,35 +108,8 @@
         </p>
       </div>
 
-      <!-- To use real DJ photos: replace the event__media src with img/dj-mago.jpg etc. -->
-      <div class="events__grid">
-        <article class="event reveal">
-          <img class="event__media" src="./img/booth-lounge.jpg" alt="" loading="lazy" />
-          <div class="event__body">
-            <p class="event__day">Wednesday</p>
-            <h3 class="event__name">Ladies Night</h3>
-            <p class="event__desc">The midweek reset. Special pours for the ladies all night — bring the crew.</p>
-          </div>
-        </article>
-        <article class="event event--dj event--feature reveal" data-poster="./img/dj-sam-friday.jpg">
-          <img class="event__media" src="./img/dj-sam-friday.jpg" alt="DJ Sam L — Friday Night poster" loading="lazy" />
-          <span class="event__tag">Live DJ</span>
-          <div class="event__body">
-            <p class="event__day">Friday</p>
-            <h3 class="event__name">DJ Samuel</h3>
-            <p class="event__desc">Resident heat on the decks. Red lights up, room loud — booth bookings recommended.</p>
-          </div>
-        </article>
-        <article class="event event--dj reveal" data-poster="./img/dj-sam-saturday.jpg">
-          <img class="event__media" src="./img/dj-sam-saturday.jpg" alt="DJ Sam — Saturday Party Night poster" loading="lazy" />
-          <span class="event__tag">Live DJ</span>
-          <div class="event__body">
-            <p class="event__day">Saturday</p>
-            <h3 class="event__name">DJ Samuel</h3>
-            <p class="event__desc">Peak weekend energy. DJ Sam runs it till 2:30 — full send.</p>
-          </div>
-        </article>
-      </div>
+      <!-- Cards are built from src/events.js — edit that file, not this. -->
+      <div class="events__grid" id="events-grid"><!-- injected --></div>
     </section>
 
     <!-- ==================================================================== -->
@@ -242,6 +215,13 @@
               <div class="chips" id="date-chips" aria-label="Quick pick a date"><!-- injected --></div>
               <input id="f-date" name="date" type="date" required />
               <p class="field__hint" id="date-hint" aria-live="polite"></p>
+            </div>
+            <div>
+              <label for="f-time">Arrival time</label>
+              <select id="f-time" name="time" required>
+                <option value="" disabled selected>Pick a time</option>
+                <!-- slots injected from config.bookingTimes -->
+              </select>
             </div>
             <div>
               <label for="f-guests">Guests</label>

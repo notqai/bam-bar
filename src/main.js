@@ -8,6 +8,7 @@
 import './styles.css'
 import { config, whatsappBookingUrl, whatsappFeedbackUrl } from './config.js'
 import { menu, special } from './menu.js'
+import { events } from './events.js'
 
 // ---------------------------------------------------------------------------
 //  Helpers
@@ -69,6 +70,30 @@ if (marqueeTrack) {
   marqueeTrack.innerHTML =
     `<div class="marquee__group">${group}</div>` +
     `<div class="marquee__group">${group}</div>`
+}
+
+// ---------------------------------------------------------------------------
+//  1c. Weekly events — cards built from events.js
+// ---------------------------------------------------------------------------
+const esc = (str) => String(str ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const eventsGrid = $('#events-grid')
+if (eventsGrid) {
+  eventsGrid.innerHTML = events
+    .map((ev) => {
+      const cls = ['event', 'reveal', ev.poster && 'event--dj', ev.feature && 'event--feature'].filter(Boolean).join(' ')
+      const alt = ev.poster ? `${ev.name} — ${ev.day} poster` : ''
+      return `
+      <article class="${cls}" ${ev.poster ? `data-poster="${esc(ev.poster)}"` : ''}>
+        <img class="event__media" src="${esc(ev.image)}" alt="${esc(alt)}" loading="lazy" />
+        ${ev.tag ? `<span class="event__tag">${esc(ev.tag)}</span>` : ''}
+        <div class="event__body">
+          <p class="event__day">${esc(ev.day)}</p>
+          <h3 class="event__name">${esc(ev.name)}</h3>
+          <p class="event__desc">${esc(ev.desc)}</p>
+        </div>
+      </article>`
+    })
+    .join('')
 }
 
 // ---------------------------------------------------------------------------
@@ -305,8 +330,42 @@ const parseIso = (str) => {
 const fmtLong = (d) => d.toLocaleDateString('en-MY', { weekday: 'long', day: 'numeric', month: 'long' })
 const fmtShort = (d) => d.toLocaleDateString('en-MY', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
 const friendlyDate = (str) => { const d = parseIso(str); return d ? fmtShort(d) : str }
-// Weekly regulars, keyed by JS weekday (0 = Sunday) — mirrors the Events section
-const NIGHTS = { 3: 'Ladies Night 🍸', 5: 'DJ night 🎧', 6: 'DJ night 🎧' }
+// Weekly regulars keyed by JS weekday (0 = Sunday), pulled from events.js
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const NIGHTS = Object.fromEntries(
+  events.filter((ev) => ev.hint).map((ev) => [WEEKDAYS.indexOf(ev.day), ev.hint])
+)
+// Arrival-time slots; Fri/Sat run later
+const fmtTime = (hhmm) => {
+  const [h, m] = hhmm.split(':').map(Number)
+  const d = new Date(2000, 0, 1, h, m)
+  return d.toLocaleTimeString('en-MY', { hour: 'numeric', minute: '2-digit' }).replace(/\s?(am|pm)$/i, (x) => ' ' + x.trim().toUpperCase())
+}
+const timeSlots = (isWeekend) => {
+  const { first, last, lastWeekend, step } = config.bookingTimes
+  const toMin = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m }
+  const start = toMin(first)
+  let end = toMin(isWeekend ? lastWeekend : last)
+  if (end <= start) end += 24 * 60                 // past midnight
+  const out = []
+  for (let t = start; t <= end; t += step) {
+    const hh = String(Math.floor((t % 1440) / 60)).padStart(2, '0')
+    const mm = String(t % 60).padStart(2, '0')
+    out.push(`${hh}:${mm}`)
+  }
+  return out
+}
+const timeInput = $('#f-time')
+const syncTimes = (isWeekend) => {
+  if (!timeInput) return
+  const keep = timeInput.value
+  const slots = timeSlots(isWeekend)
+  timeInput.innerHTML =
+    '<option value="" disabled selected>Pick a time</option>' +
+    slots.map((t) => `<option value="${t}">${fmtTime(t)}</option>`).join('')
+  timeInput.value = slots.includes(keep) ? keep : ''
+}
+syncTimes(false)
 
 const dateInput = $('#f-date')
 const dateChips = $('#date-chips')
@@ -334,7 +393,8 @@ if (dateInput) {
   const syncDate = () => {
     const d = parseIso(dateInput.value)
     $$('.chip', dateChips).forEach((c) => c.classList.toggle('is-active', c.dataset.date === dateInput.value))
-    if (!d) { dateHint.innerHTML = ''; return }
+    if (!d) { dateHint.innerHTML = ''; syncTimes(false); return }
+    syncTimes(d.getDay() === 5 || d.getDay() === 6)
     const days = Math.round((d - today) / DAY)
     const when = days === 0 ? 'Tonight' : days === 1 ? 'Tomorrow' : days < 0 ? 'That date has passed' : `In ${days} days`
     const night = NIGHTS[d.getDay()]
@@ -361,7 +421,7 @@ const status = $('#book-status')
 // Pre-filled WhatsApp message carrying the same details as the form
 const waRequestUrl = (data) => {
   const msg = encodeURIComponent(
-    `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${friendlyDate(data.date)}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
+    `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${friendlyDate(data.date)}\nTime: ${data.time ? fmtTime(data.time) : '—'}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
   )
   return `https://wa.me/${config.whatsapp}?text=${msg}`
 }
@@ -390,12 +450,13 @@ form?.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        _subject: `Table request — ${data.name} · ${friendlyDate(data.date)} · ${data.guests} guests`,
+        _subject: `Table request — ${data.name} · ${friendlyDate(data.date)} ${data.time ? fmtTime(data.time) : ''} · ${data.guests} guests`,
         _template: 'table',
         _captcha: 'false',
         ...(isEmail ? { _replyto: data.contact.trim() } : {}),
         Name: data.name,
         Date: friendlyDate(data.date),
+        Time: data.time ? fmtTime(data.time) : '—',
         Guests: data.guests,
         Contact: data.contact,
         Note: data.note || '—',
