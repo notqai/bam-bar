@@ -623,6 +623,7 @@ section { position: relative; }
 .book__status { text-align: center; font-size: 0.9rem; min-height: 1.2em; }
 .book__status.is-ok { color: var(--glow-green); }
 .book__status.is-err { color: var(--red-bright); }
+.book__status a { color: var(--cream); font-weight: 600; text-underline-offset: 3px; }
 
 /* --------------------------------------------------------------------------
    14. FOOTER

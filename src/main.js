@@ -358,6 +358,14 @@ if (dateInput) {
 // ---------------------------------------------------------------------------
 const form = $('#book-form')
 const status = $('#book-status')
+// Pre-filled WhatsApp message carrying the same details as the form
+const waRequestUrl = (data) => {
+  const msg = encodeURIComponent(
+    `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${friendlyDate(data.date)}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
+  )
+  return `https://wa.me/${config.whatsapp}?text=${msg}`
+}
+
 form?.addEventListener('submit', async (e) => {
   e.preventDefault()
   if (!form.reportValidity()) return
@@ -370,10 +378,7 @@ form?.addEventListener('submit', async (e) => {
 
   // No email configured → hand off to WhatsApp so it still works.
   if (!config.bookingEmail) {
-    const msg = encodeURIComponent(
-      `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${friendlyDate(data.date)}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
-    )
-    window.open(`https://wa.me/${config.whatsapp}?text=${msg}`, '_blank', 'noopener')
+    window.open(waRequestUrl(data), '_blank', 'noopener')
     status.classList.add('is-ok')
     status.textContent = 'Opening WhatsApp to confirm your booking…'
     return
@@ -403,11 +408,19 @@ form?.addEventListener('submit', async (e) => {
       status.classList.add('is-ok')
       status.textContent = 'Got it — we’ll confirm your booth shortly. 🖤'
     } else {
-      throw new Error('bad response')
+      throw new Error(`formsubmit ${res.status}: ${body.message || 'no message'}`)
     }
-  } catch {
+  } catch (err) {
+    // Owner-facing detail (e.g. "form needs activation") lands in the console;
+    // the guest gets a one-tap WhatsApp fallback with their details filled in.
+    console.warn('[BÀM booking] email send failed →', err?.message || err)
     status.classList.add('is-err')
-    status.textContent = 'Something went wrong — please WhatsApp us instead.'
+    status.innerHTML = ''
+    status.append('Email didn’t go through — ')
+    const a = document.createElement('a')
+    a.href = waRequestUrl(data); a.target = '_blank'; a.rel = 'noopener'
+    a.textContent = 'tap to send it on WhatsApp instead →'
+    status.append(a)
   }
 })
 
