@@ -24,26 +24,6 @@ Almost everything you'll want to change lives in **two files**:
 | Colours, fonts, spacing              | `src/styles.css` (top of file: **DESIGN TOKENS**) |
 | Photos                               | `public/img/`             |
 
-### ⚠️ Before going live — replace these placeholders (all marked `TODO`)
-
-In `src/config.js`:
-- **`whatsapp`** — the venue's WhatsApp number, international format, digits only
-  (e.g. `60128889999`). Powers the "Book on WhatsApp" button, the floating
-  button, and the form.
-- **`tiktok`** — paste the TikTok profile URL, or leave `''` to hide the link.
-- **`formspreeId`** — optional. Make a free form at
-  [formspree.io](https://formspree.io) and paste its ID to have the reservation
-  form email you. **Until you do, the form still works** — it opens a pre-filled
-  WhatsApp message instead.
-- **`address` / `mapsUrl` / `mapsEmbed`** — swap in the exact street address and
-  the real Google Maps link/embed for the venue.
-
-## Photos
-
-The six venue photos in `public/img/` were cropped from phone screenshots.
-For the sharpest result, replace them with the original full-resolution images
-from the venue's own camera / Instagram — keep the same filenames and they'll
-drop straight in.
 
 ## Deploy to GitHub Pages
 
