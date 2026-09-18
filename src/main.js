@@ -291,7 +291,7 @@ $$('.reveal').forEach((el) => io.observe(el))
 
 // ---------------------------------------------------------------------------
 //  5. Reservation form
-//     • With a Formspree ID set in config → sends email.
+//     • With a bookingEmail set in config → emails it via formsubmit.co.
 //     • Without one → falls back to opening a pre-filled WhatsApp message.
 // ---------------------------------------------------------------------------
 const form = $('#book-form')
@@ -303,8 +303,11 @@ form?.addEventListener('submit', async (e) => {
   status.className = 'book__status'
   status.textContent = 'Sending…'
 
-  // No email backend configured yet → hand off to WhatsApp so it still works.
-  if (!config.formspreeId) {
+  // Bot filled the honeypot → pretend it worked, send nothing.
+  if (data._honey) { status.classList.add('is-ok'); status.textContent = 'Got it — we’ll confirm your booth shortly. 🖤'; return }
+
+  // No email configured → hand off to WhatsApp so it still works.
+  if (!config.bookingEmail) {
     const msg = encodeURIComponent(
       `Hi BÀM! Table request:\n\nName: ${data.name}\nDate: ${data.date}\nGuests: ${data.guests}\nContact: ${data.contact}\n${data.note ? 'Note: ' + data.note : ''}`
     )
@@ -315,12 +318,24 @@ form?.addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch(`https://formspree.io/f/${config.formspreeId}`, {
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.contact.trim())
+    const res = await fetch(`https://formsubmit.co/ajax/${config.bookingEmail}`, {
       method: 'POST',
-      headers: { Accept: 'application/json' },
-      body: new FormData(form),
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _subject: `Table request — ${data.name} · ${data.date} · ${data.guests} guests`,
+        _template: 'table',
+        _captcha: 'false',
+        ...(isEmail ? { _replyto: data.contact.trim() } : {}),
+        Name: data.name,
+        Date: data.date,
+        Guests: data.guests,
+        Contact: data.contact,
+        Note: data.note || '—',
+      }),
     })
-    if (res.ok) {
+    const body = await res.json().catch(() => ({}))
+    if (res.ok && String(body.success) !== 'false') {
       form.reset()
       status.classList.add('is-ok')
       status.textContent = 'Got it — we’ll confirm your booth shortly. 🖤'

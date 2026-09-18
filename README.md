@@ -19,7 +19,7 @@ Almost everything you'll want to change lives in **two files**:
 | I want to change…                    | Edit this file            |
 | ------------------------------------ | ------------------------- |
 | Menu items, prices, categories       | `src/menu.js`             |
-| Phone / WhatsApp, socials, hours, address, map | `src/config.js` |
+| Phone / WhatsApp, booking email, socials, hours, address, map | `src/config.js` |
 | Section wording, events, headlines   | `index.html`              |
 | Colours, fonts, spacing              | `src/styles.css` (top of file: **DESIGN TOKENS**) |
 | Photos                               | `public/img/`             |

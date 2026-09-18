@@ -688,6 +688,8 @@ section { position: relative; }
 .shot .hero { min-height: auto; padding-top: 8rem; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
+.book__form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
 /* --------------------------------------------------------------------------
    17. RESPONSIVE
    -------------------------------------------------------------------------- */

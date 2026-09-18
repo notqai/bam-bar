@@ -7,8 +7,9 @@
 //    • whatsapp  — the venue's WhatsApp number in international format,
 //                  digits only, no "+" or spaces. e.g. Malaysia: 60128889999
 //    • tiktok    — full TikTok profile URL (or leave '' to hide the link)
-//    • formspreeId — create a free form at https://formspree.io and paste the
-//                  form ID here to make the reservation form actually send email.
+//    • bookingEmail — where reservation-form requests are emailed (via
+//                  formsubmit.co, no account needed). Leave '' to send them
+//                  to WhatsApp instead.
 // ============================================================================
 
 export const config = {
@@ -25,8 +26,10 @@ export const config = {
   instagramHandle: '@bambar.miri',
   tiktok: '', // no TikTok — leave '' to hide the link
 
-  // TODO: paste your Formspree form ID to enable email reservations
-  formspreeId: '',
+  // Reservation form → email. Sent through https://formsubmit.co, which needs
+  // no account: the FIRST submission emails this address an "Activate form"
+  // link — click it once and every request after that lands in the inbox.
+  bookingEmail: 'bambarbookings@gmail.com',
 
   // Address + Google Maps (listing: "BÀM Bar Miri")
   address: 'Lot 2292, Ground Floor, Marina Square Phase 2 (below Level Up Gym), Miri, Sarawak',
