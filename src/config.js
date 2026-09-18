@@ -43,6 +43,10 @@ export const config = {
     { days: 'Sunday', time: '4:00 PM – 1:00 AM' },
   ],
 
+  // Booking-form arrival slots (24h clock). Slots run every `step` minutes
+  // from `first` to `last`; Fri/Sat run to `lastWeekend` instead.
+  bookingTimes: { first: '16:00', last: '01:00', lastWeekend: '02:00', step: 30 },
+
   // Google review link. For a true one-tap link, open your Google Business
   // Profile → "Ask for reviews" → copy the g.page/r/…/review link and paste here.
   reviewUrl: 'https://www.google.com/maps/search/?api=1&query=B%C3%80M%20Bar%20Marina%20Square%20Phase%202%20Miri',
