@@ -531,7 +531,7 @@ section { position: relative; }
 .gallery__item--tall { grid-row: span 2; }
 .gallery__item--wide { grid-column: span 2; }
 .gallery__item--feature { grid-column: span 2; grid-row: span 2; }
-.gallery__item--wide-lg { grid-column: span 2; } /* wide on desktop only, see responsive */
+.gallery__item--wide-lg { grid-column: 2 / span 2; } /* centred last row on desktop; single cell on mobile, see responsive */
 .gallery__cap {
   position: absolute; left: 0.75rem; bottom: 0.6rem; z-index: 1;
   font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.12em;
